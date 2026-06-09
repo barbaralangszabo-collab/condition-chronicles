@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Conditional Chronicles</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .app-title {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .main-card {
+            box-shadow: 0 15px 35px -5px rgba(59, 130, 246, 0.08), 0 0 20px 0 rgba(59, 130, 246, 0.04);
+        }
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .highlight-hint {
+            animation: pulse-border 1.5s infinite;
+            border-color: #f59e0b !important;
+            background-color: #fef3c7 !important;
+        }
+        @keyframes pulse-border {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-900 text-xl leading-relaxed">
+
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-50 px-6 py-5 flex flex-wrap justify-between items-center gap-4 shadow-sm">
+        <div class="flex items-center space-x-4">
+            <div class="p-3 bg-blue-600 text-white rounded-xl shadow-md">
+                <i data-lucide="history" class="w-8 h-8"></i>
+            </div>
+            <div>
+                <h1 class="app-title font-bold text-3xl tracking-wide text-slate-900">THE CONDITIONAL CHRONICLES</h1>
+                <p class="text-sm font-semibold text-blue-700 uppercase tracking-wider">Grammar Practice Module: Third & Mixed Conditionals</p>
+            </div>
+        </div>
+        
+        <div id="timeline-tracker" class="hidden lg:flex items-center space-x-2 bg-slate-100 border border-slate-300 p-3 rounded-xl">
+        </div>
+
+        <div>
+            <button onclick="resetMission()" class="flex items-center space-x-2 text-base font-semibold border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-700 px-5 py-3 rounded-xl transition-all cursor-pointer shadow-sm">
+                <i data-lucide="refresh-cw" class="w-5 h-5 text-slate-700"></i>
+                <span>Restart Game</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-8 flex flex-col justify-center">
+        
+        <!-- Screen: Briefing / Landing Page -->
+        <div id="screen-briefing" class="main-card bg-white border border-slate-200 rounded-2xl p-6 md:p-10 max-w-4xl mx-auto space-y-8">
+            
+            <div class="rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-slate-50">
+                <img src="history2.jpg" alt="Historical Timeline Collage" class="w-full h-80 object-cover">
+                <div class="bg-slate-100 p-3 text-center text-sm font-bold text-slate-800 border-t border-slate-200 uppercase tracking-wide">
+                    Explore key turning points in history and rewrite the past using English grammar.
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h2 class="app-title text-4xl font-bold text-slate-900">Welcome to the Timeline Rescue Game!</h2>
+                <div class="h-1.5 w-24 bg-blue-600 rounded"></div>
+            </div>
+
+            <div class="text-slate-800 space-y-5 text-xl">
+                <p>Important events in world history have been disrupted! Your job is to fix the timeline by talking about the past using the <strong>Third Conditional</strong> structure.</p>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-600 rounded-r-xl p-5 space-y-2">
+                    <h4 class="font-bold text-blue-900 flex items-center gap-2 text-lg">
+                        <i data-lucide="book-open" class="w-5 h-5 text-blue-600"></i> Grammar Reminder:
+                    </h4>
+                    <p class="text-base text-slate-800">To talk about imaginary past situations and their results, use this pattern:<br>
+                    <code class="bg-white border border-blue-200 px-2 py-1 rounded text-blue-900 font-mono font-bold text-base inline-block mt-2">If + Past Perfect (had + V3), ... would have + Past Participle (V3)</code></p>
+                </div>
+
+                <p class="font-semibold text-slate-900">The game has two phases:</p>
+                <ul class="space-y-4 text-base list-none pl-0 text-slate-800">
+                    <li class="flex items-start gap-4">
+                        <span class="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-full font-bold text-sm shrink-0">1</span>
+                        <div><strong class="text-slate-900 text-lg block">Phase 1: Word Puzzle (Stations 1-6)</strong> Look at the historical facts and click on the word cards in the correct order to build the sentence. You can request clues or reveal the answer if needed.</div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-full font-bold text-sm shrink-0">2</span>
+                        <div><strong class="text-slate-900 text-lg block">Phase 2: Typing Challenge (Stations 7-12)</strong> Test your knowledge! Type the correct missing verbs directly into the box. You can request hints or reveal the answers if you are stuck.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pt-4">
+                <button onclick="startMission()" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center space-x-3 cursor-pointer text-lg shadow-md shadow-blue-600/10">
+                    <span>Start the Challenge</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen: Main Workstation Game Lab -->
+        <div id="screen-lab" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <div class="lg:col-span-5 space-y-6">
+                <div class="main-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col">
+                    <div class="h-64 sm:h-72 bg-slate-100 flex items-center justify-center overflow-hidden">
+                        <img id="station-image" src="" alt="Historical Event Backdrop" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-5">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold tracking-wider text-blue-600 block uppercase">Real History Fact:</span>
+                            <p id="station-fact" class="text-lg text-slate-800 font-medium leading-relaxed italic"></p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
+                            <span class="text-xs font-bold text-slate-600 uppercase block tracking-wider">Your Goal:</span>
+                            <p id="station-prompt" class="text-lg text-slate-900 font-bold leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-6">
+                <div id="workstation-card" class="main-card bg-white border border-slate-200 rounded-2xl p-6 md:p-8 space-y-6 min-h-[480px] flex flex-col justify-between transition-all duration-300">
+                    
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+                        <div class="space-y-1">
+                            <span id="station-step-label" class="text-sm font-bold text-blue-700 uppercase tracking-widest block"></span>
+                            <h4 id="workstation-label" class="app-title font-bold text-2xl text-slate-900"></h4>
+                        </div>
+                        <div id="feedback-badge" class="hidden items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold shadow-sm">
+                            <i id="feedback-icon" class="w-5 h-5"></i>
+                            <span id="feedback-text"></span>
+                        </div>
+                    </div>
+
+                    <!-- Mechanic: Calibration (Word Puzzle) -->
+                    <div id="mechanic-calibration" class="space-y-6 my-auto hidden">
+                        <p class="text-sm font-semibold text-slate-600 uppercase tracking-wider">Click the word boxes in the correct order to build the sentence:</p>
+                        
+                        <div id="block-dropzone" class="min-h-[90px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-4 flex flex-wrap gap-3 items-center justify-start transition-all">
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Word Bank:</span>
+                                <button onclick="clearCalibrationBlocks()" class="text-sm font-bold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer">
+                                    <i data-lucide="undo-2" class="w-4 h-4"></i> Clear Sentence
+                                </button>
+                            </div>
+                            <div id="block-bank" class="flex flex-wrap gap-3 p-4 bg-white border border-slate-200 rounded-xl min-h-[90px] items-center shadow-inner">
+                            </div>
+                        </div>
+
+                        <!-- Utility Help Buttons for Phase 1 -->
+                        <div class="flex flex-wrap items-center gap-3 pt-2">
+                            <button id="btn-calibration-hint" onclick="showCalibrationHint()" class="bg-amber-50 border-2 border-amber-300 text-amber-800 text-sm font-bold px-4 py-2 rounded-xl hover:bg-amber-100 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm">
+                                <i data-lucide="help-circle" class="w-4 h-4 text-amber-700"></i>
+                                <span>Get Clue</span>
+                            </button>
+                            <button id="btn-calibration-reveal" onclick="revealCalibrationAnswer()" class="bg-rose-50 border-2 border-rose-200 text-rose-800 text-sm font-bold px-4 py-2 rounded-xl hover:bg-rose-100 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm">
+                                <i data-lucide="eye" class="w-4 h-4 text-rose-700"></i>
+                                <span>Reveal Answer</span>
+                            </button>
+                        </div>
+
+                        <div id="calibration-hint-box" class="hidden bg-amber-50 rounded-xl p-4 border border-amber-200">
+                            <p class="text-base text-amber-950 font-medium flex items-start gap-2">
+                                <i data-lucide="lightbulb" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+                                <span id="calibration-hint-text"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mechanic: Override (Typing Challenge) -->
+                    <div id="mechanic-override" class="space-y-4 my-auto hidden">
+                        <label for="override-input" class="text-sm font-semibold text-slate-600 uppercase tracking-wider block">Type the missing verb phrase here:</label>
+                        <div class="relative">
+                            <textarea id="override-input" rows="3" class="w-full border-2 border-slate-300 font-semibold rounded-xl p-4 text-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all placeholder:text-slate-400 text-slate-900 shadow-inner" placeholder="Type your answer here..."></textarea>
+                        </div>
+                        
+                        <!-- Utility Help Buttons for Phase 2 -->
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button id="btn-hint" onclick="showHelpHint()" class="bg-amber-50 border-2 border-amber-300 text-amber-800 text-sm font-bold px-4 py-2 rounded-xl hover:bg-amber-100 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm">
+                                <i data-lucide="help-circle" class="w-4 h-4 text-amber-700"></i>
+                                <span>Get Hint</span>
+                            </button>
+                            <button id="btn-reveal" onclick="revealCorrectAnswer()" class="bg-rose-50 border-2 border-rose-200 text-rose-800 text-sm font-bold px-4 py-2 rounded-xl hover:bg-rose-100 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm">
+                                <i data-lucide="eye" class="w-4 h-4 text-rose-700"></i>
+                                <span>Reveal Answer</span>
+                            </button>
+                        </div>
+
+                        <div id="hint-box" class="hidden bg-amber-50 rounded-xl p-4 border border-amber-200">
+                            <p class="text-base text-amber-950 font-medium flex items-start gap-2">
+                                <i data-lucide="lightbulb" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+                                <span id="override-hint-text"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Workstation Footer Controls -->
+                    <div class="border-t border-slate-200 pt-4 flex justify-end items-center">
+                        <div class="flex space-x-3 w-full sm:w-auto">
+                            <button id="btn-submit" onclick="evaluateAnswer()" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold text-base px-8 py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-md">
+                                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                <span>Check Answer</span>
+                            </button>
+                            <button id="btn-next" onclick="nextStation()" class="hidden w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold text-base px-8 py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-md shadow-blue-600/10">
+                                <span>Proceed</span>
+                                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen: Debriefing (Results & Discussion) -->
+        <div id="screen-debriefing" class="hidden main-card bg-white border border-slate-200 rounded-2xl p-6 md:p-10 max-w-3xl mx-auto space-y-8 text-center">
+            <div class="mx-auto w-20 h-20 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-md">
+                <i data-lucide="trophy" class="w-10 h-10"></i>
+            </div>
+
+            <div class="space-y-2">
+                <h2 class="app-title text-4xl font-bold text-slate-900">Congratulations!</h2>
+                <p class="text-sm font-bold text-emerald-700 uppercase tracking-widest">You solved all 12 history challenges!</p>
+            </div>
+
+            <p class="text-slate-800 max-w-xl mx-auto leading-relaxed text-xl">
+                You successfully corrected the timelines using the Third Conditional. Now, let's explore how changing these events might affect our world today.
+            </p>
+
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-6 space-y-4 max-w-xl mx-auto text-left relative overflow-hidden shadow-sm">
+                <div class="flex items-center space-x-2 border-b border-blue-200 pb-3">
+                    <i data-lucide="messages-square" class="w-6 h-6 text-blue-600"></i>
+                    <span class="text-sm font-bold uppercase text-blue-900 tracking-wider">Class Discussion Question (Mixed Conditionals)</span>
+                </div>
+                <div class="min-h-[100px] flex items-center">
+                    <p id="discussion-prompt" class="text-slate-900 font-bold text-xl leading-relaxed"></p>
+                </div>
+                <button onclick="generateDiscussionPrompt()" class="w-full bg-white hover:bg-slate-50 text-blue-700 border-2 border-blue-300 font-bold text-sm py-3 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-sm">
+                    <i data-lucide="shuffle" class="w-4 h-4"></i>
+                    <span>Show Next Discussion Question</span>
+                </button>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-center items-center gap-4">
+                <button onclick="resetMission()" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-md">
+                    <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                    <span>Play Again</span>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white py-5 text-center text-xs font-semibold tracking-wider text-slate-500 uppercase">
+        Historical What-Ifs Learning Module &bull; B1-B2 Intermediate Scaffolding Framework
+    </footer>
+
+    <script>
+        const stationsData = [
+            {
+                id: 1,
+                phase: "Calibration",
+                title: "The Sinking of the Titanic",
+                fact: "The Titanic didn't carry enough lifeboats for everyone and the crew ignored multiple iceberg warnings.",
+                prompt: "Reconstruct: If the captain (heed) the iceberg warnings, the ship (not strike) the iceberg.",
+                blocks: ["If the captain", "had heeded", "the iceberg warnings,", "the ship", "would not have struck", "the iceberg."],
+                solutionTokens: ["If the captain", "had heeded", "the iceberg warnings,", "the ship", "would not have struck", "the iceberg."],
+                hint: "Structure formula: If + subject + had + V3 (heeded), subject + would not have + V3 (struck). Check the remaining building block choices below!",
+                imageUrl: "titanic.jpg",
+                positionTop: false
+            },
+            {
+                id: 2,
+                phase: "Calibration",
+                title: "Discovery of Penicillin",
+                fact: "Alexander Fleming accidentally found penicillin because he left his petri dishes dirty before going on holiday.",
+                prompt: "Reconstruct: If Fleming (clean) his lab thoroughly, he (not discover) penicillin by chance.",
+                blocks: ["If Fleming", "had cleaned", "his lab thoroughly,", "he", "would not have discovered", "penicillin by chance."],
+                solutionTokens: ["If Fleming", "had cleaned", "his lab thoroughly,", "he", "would not have discovered", "penicillin by chance."],
+                hint: "Structure formula: If + subject + had + V3 (cleaned), subject + would not have + V3 (discovered). Make sure to link the clauses carefully.",
+                imageUrl: "pennicilin.jpg",
+                positionTop: false
+            },
+            {
+                id: 3,
+                phase: "Calibration",
+                title: "The Library of Alexandria",
+                fact: "The great ancient library was completely destroyed by accidental fires, which ruined thousands of historical scrolls.",
+                prompt: "Reconstruct: If the great library (not burn) down, modern humanity (inherit) immense ancient wisdom.",
+                blocks: ["If the great library", "had not burned", "down,", "modern humanity", "would have inherited", "immense ancient wisdom."],
+                solutionTokens: ["If the great library", "had not burned", "down,", "modern humanity", "would have inherited", "immense ancient wisdom."],
+                hint: "Structure formula: If + subject + had not + V3 (burned), subject + would have + V3 (inherited). Pay close attention to the position of the negative particle 'not'.",
+                imageUrl: "libraryofAlexandria.jpg",
+                positionTop: false
+            },
+            {
+                id: 4,
+                phase: "Calibration",
+                title: "The Wright Brothers Fly",
+                fact: "Orville and Wilbur Wright studied aerodynamics and glider designs for years before they built a working plane.",
+                prompt: "Reconstruct: If they (not study) aerodynamics systematically, their 1903 flyer (not take) off.",
+                blocks: ["If they", "had not studied", "aerodynamics systematically,", "their 1903 flyer", "would not have taken", "off."],
+                solutionTokens: ["If they", "had not studied", "aerodynamics systematically,", "their 1903 flyer", "would not have taken", "off."],
+                hint: "Structure formula: If + subject + had not + V3 (studied), subject + would not have + V3 (taken). Notice that both components of this alternate timeline are conditional negatives.",
+                imageUrl: "write-brothers.jpg",
+                positionTop: false
+            },
+            {
+                id: 5,
+                phase: "Calibration",
+                title: "The Pompeii Eruption",
+                fact: "The residents of Pompeii ignored the first small earthquakes because they did not know Vesuvius was a dangerous volcano.",
+                prompt: "Reconstruct: If the residents (evacuate) during the initial tremors, thousands of lives (be saved).",
+                blocks: ["If the residents", "had evacuated", "during the initial tremors,", "thousands of lives", "would have been saved."],
+                solutionTokens: ["If the residents", "had evacuated", "during the initial tremors,", "thousands of lives", "would have been saved."],
+                hint: "Structure formula: If + subject + had + V3 (evacuated), subject + would have been + V3 (saved). The second section uses a passive structure form (would have been + V3).",
+                imageUrl: "Pompeii-eruption.webp",
+                positionTop: false
+            },
+            {
+                id: 6,
+                phase: "Calibration",
+                title: "The Apollo 11 Moon Landing",
+                fact: "The landing computer overloaded with information just minutes before landing, but Neil Armstrong took manual control.",
+                prompt: "Reconstruct: If Armstrong (not take) manual control of the module, the lander (crash) into boulders.",
+                blocks: ["If Armstrong", "had not taken", "manual control of the module,", "the lander", "would have crashed", "into boulders."],
+                solutionTokens: ["If Armstrong", "had not taken", "manual control of the module,", "the lander", "would have crashed", "into boulders."],
+                hint: "Structure formula: If + subject + had not + V3 (taken), subject + would have + V3 (crashed). The first clause requires a negative structure, and the second clause is affirmative.",
+                imageUrl: "moonlanding.jpg",
+                positionTop: true
+            },
+            {
+                id: 7,
+                phase: "Override",
+                title: "Julius Caesar & The Ides of March",
+                fact: "A seer warned Julius Caesar about March 15th, and a friend tried to hand him a warning letter, but Caesar ignored them both.",
+                prompt: "Complete the sentence: If Caesar ________ (read) the warning letter, he ________ (avoid) the assassination plot.",
+                hint: "Fill in both blanks. Template: had + V3 (read), he would have + V3 (avoided). Be careful: the verb 'read' changes pronunciation but keeps the same spelling in its V3 form.",
+                solutionPlain: "had read the warning letter, he would have avoided",
+                acceptedAnswers: [
+                    "had read the warning letter he would have avoided",
+                    "had read the warning letter, he would have avoided"
+                ],
+                imageUrl: "cesar.jpg",
+                positionTop: false
+            },
+            {
+                id: 8,
+                phase: "Override",
+                title: "Rosalind Franklin's Photo 51",
+                fact: "Rosalind Franklin captured the first clear X-ray photograph of DNA. Her colleagues showed it to Watson and Crick without telling her.",
+                prompt: "Complete the sentence: If her colleagues ________ (not show) Photo 51 secretly, Watson and Crick ________ (not solve) the DNA puzzle so quickly.",
+                hint: "Both verbs must express a past negative assumption. Template: had not / hadn't + V3 (shown) ... would not / wouldn't have + V3 (solved). Ensure you include the full phrase snippet required to bridge the blanks.",
+                solutionPlain: "had not shown Photo 51 secretly, Watson and Crick would not have solved",
+                acceptedAnswers: [
+                    "had not shown photo 51 secretly watson and crick would not have solved",
+                    "had not shown photo 51 secretly, watson and crick would not have solved",
+                    "hadn't shown photo 51 secretly watson and crick wouldn't have solved",
+                    "hadn't shown photo 51 secretly, watson and crick wouldn't have solved",
+                    "hadn't shown photo 51 secretly watson and crick would not have solved",
+                    "had not shown photo 51 secretly watson and crick wouldn't have solved"
+                ],
+                imageUrl: "xray.jpeg",
+                positionTop: false
+            },
+            {
+                id: 9,
+                phase: "Override",
+                title: "Newton & The Apple Tree",
+                fact: "Isaac Newton created his famous theory of gravity after he watched an apple fall from a tree in his garden.",
+                prompt: "Complete the sentence: If the apple ________ (not fall) from that branch, Newton ________ (not formulate) gravity laws that year.",
+                hint: "Both missing segments are past negatives. Template: had not / hadn't + V3 (fallen) ... would not / wouldn't have + V3 (formulated). Remember that the V3 form of 'fall' is 'fallen'.",
+                solutionPlain: "had not fallen from that branch, Newton would not have formulated",
+                acceptedAnswers: [
+                    "had not fallen from that branch newton would not have formulated",
+                    "had not fallen from that branch, newton would not have formulated",
+                    "hadn't fallen from that branch newton wouldn't have formulated",
+                    "hadn't fallen from that branch, newton wouldn't have formulated",
+                    "hadn't fallen from that branch newton would not have formulated",
+                    "had not fallen from that branch newton wouldn't have formulated"
+                ],
+                imageUrl: "newton.jpg",
+                positionTop: false
+            },
+            {
+                id: 10,
+                phase: "Override",
+                title: "The Fall of the Berlin Wall",
+                fact: "A government official accidentally announced that travel rules were changing immediately, causing thousands of citizens to rush the border.",
+                prompt: "Complete the sentence: If the official ________ (not make) that accidental announcement, the borders ________ (not open) that precise evening.",
+                hint: "Both missing spaces must be written as negatives. Template: had not / hadn't + V3 (made) ... would not / wouldn't have + V3 (opened). Fill in all necessary intermediate words.",
+                solutionPlain: "had not made that accidental announcement, the borders would not have opened",
+                acceptedAnswers: [
+                    "had not made that accidental announcement the borders would not have opened",
+                    "had not made that accidental announcement, the borders would not have opened",
+                    "hadn't made that accidental announcement the borders wouldn't have opened",
+                    "hadn't made that accidental announcement, the borders wouldn't have opened",
+                    "hadn't made that accidental announcement the borders would not have opened",
+                    "had not made that accidental announcement the borders wouldn't have opened"
+                ],
+                imageUrl: "berlin-wall.jpg",
+                positionTop: false
+            },
+            {
+                id: 11,
+                phase: "Override",
+                title: "Stanislav Petrov's Decision",
+                fact: "Soviet officer Stanislav Petrov correctly decided that a computer missile alarm was a mistake, and refused orders to launch an attack.",
+                prompt: "Complete the sentence: If Petrov ________ (obey) standard operating protocol, a global nuclear war ________ (break out).",
+                hint: "Both components require affirmative structures. Template: had + V3 (obeyed) ... would have + V3 (broken out). Note that the past participle of 'break' is 'broken'.",
+                solutionPlain: "had obeyed standard operating protocol, a global nuclear war would have broken out",
+                acceptedAnswers: [
+                    "had obeyed standard operating protocol a global nuclear war would have broken out",
+                    "had obeyed standard operating protocol, a global nuclear war would have broken out"
+                ],
+                imageUrl: "stanislav-petrov.jpg",
+                positionTop: false
+            },
+            {
+                id: 12,
+                phase: "Override",
+                title: "Construction of the Great Pyramids",
+                fact: "The ancient Egyptians designed detailed planning systems and worker support villages to complete the giant monument.",
+                prompt: "Complete the sentence: If they ________ (lack) complex architectural plans, the builders ________ (never finish) the monument.",
+                hint: "The first action is affirmative: had + V3 (lacked). The second section includes the adverb 'never'. Template: would have never + V3 (finished) or would never have + V3 (finished). Give it a shot!",
+                solutionPlain: "had lacked complex architectural plans, the builders would have never finished",
+                acceptedAnswers: [
+                    "had lacked complex architectural plans the builders would have never finished",
+                    "had lacked complex architectural plans, the builders would have never finished",
+                    "had lacked complex architectural plans the builders never would have finished",
+                    "had lacked complex architectural plans, the builders never would have finished",
+                    "had lacked complex architectural plans the builders would never have finished",
+                    "had lacked complex architectural plans, the builders would never have finished"
+                ],
+                imageUrl: "pyramids.jpg",
+                positionTop: true
+            }
+        ];
+
+        const discussionPrompts = [
+            "If the Library of Alexandria hadn't burned down, how would our world be different right now?",
+            "If the Titanic hadn't sunk, do you think travel laws would be less strict today?",
+            "If Alexander Fleming had cleaned his laboratory, how would modern medicine be different today?",
+            "If a nuclear war had broken out in 1983, what would life look like today?",
+            "If the Wright Brothers hadn't invented the airplane, how would people travel between countries today?"
+        ];
+
+        let currentStationIndex = 0;
+        let selectedBlocks = [];
+        let completedStations = new Set();
+        let currentShuffledBank = [];
+        let highlightedHintBlock = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            buildTimelineTrackerDOM();
+        });
+
+        function buildTimelineTrackerDOM() {
+            const tracker = document.getElementById("timeline-tracker");
+            tracker.innerHTML = "";
+            stationsData.forEach((station, idx) => {
+                const badge = document.createElement("div");
+                badge.id = `nav-badge-${idx}`;
+                badge.className = "w-8 h-8 rounded-lg border-2 flex items-center justify-center text-sm font-bold bg-white text-slate-500 border-slate-300 transition-all duration-300";
+                badge.innerText = station.id;
+                tracker.appendChild(badge);
+            });
+        }
+
+        function startMission() {
+            document.getElementById("screen-briefing").classList.add("hidden");
+            document.getElementById("screen-lab").classList.remove("hidden");
+            loadStation(0);
+        }
+
+        function loadStation(index) {
+            currentStationIndex = index;
+            const station = stationsData[index];
+            highlightedHintBlock = null;
+
+            const imgElement = document.getElementById("station-image");
+            imgElement.src = station.imageUrl;
+            
+            // Adjust framing focus alignment dynamically based on station parameters
+            if (station.positionTop) {
+                imgElement.className = "w-full h-full object-cover object-top";
+            } else {
+                imgElement.className = "w-full h-full object-cover object-center";
+            }
+            
+            document.getElementById("station-step-label").innerText = `Progress Scale: Step ${station.id} of 12`;
+            document.getElementById("station-fact").innerText = `"${station.fact}"`;
+            document.getElementById("station-prompt").innerText = station.prompt;
+            document.getElementById("workstation-label").innerText = `${station.phase} Task`;
+
+            document.getElementById("hint-box").classList.add("hidden");
+            document.getElementById("calibration-hint-box").classList.add("hidden");
+
+            const feedbackBadge = document.getElementById("feedback-badge");
+            feedbackBadge.className = "hidden";
+            
+            document.getElementById("btn-submit").classList.remove("hidden");
+            document.getElementById("btn-next").classList.add("hidden");
+
+            stationsData.forEach((_, idx) => {
+                const badge = document.getElementById(`nav-badge-${idx}`);
+                if (!badge) return;
+                badge.className = "w-8 h-8 rounded-lg border-2 flex items-center justify-center text-sm font-bold bg-white text-slate-500 border-slate-300";
+                
+                if (idx === index) {
+                    badge.className = "w-9 h-9 rounded-lg border-2 flex items-center justify-center text-sm font-bold bg-blue-600 text-white border-blue-600 scale-110 shadow-sm";
+                } else if (completedStations.has(idx)) {
+                    badge.className = "w-8 h-8 rounded-lg border-2 flex items-center justify-center text-sm font-bold bg-emerald-600 text-white border-emerald-600";
+                }
+            });
+
+            if (station.phase === "Calibration") {
+                document.getElementById("mechanic-calibration").classList.remove("hidden");
+                document.getElementById("mechanic-override").classList.add("hidden");
+                
+                document.getElementById("btn-calibration-hint").disabled = false;
+                document.getElementById("btn-calibration-reveal").disabled = false;
+                
+                selectedBlocks = [];
+                renderCalibrationBlocks();
+            } else {
+                document.getElementById("mechanic-calibration").classList.add("hidden");
+                document.getElementById("mechanic-override").classList.remove("hidden");
+                
+                document.getElementById("btn-hint").disabled = false;
+                document.getElementById("btn-reveal").disabled = false;
+
+                const inputArea = document.getElementById("override-input");
+                inputArea.value = "";
+                inputArea.disabled = false;
+            }
+            lucide.createIcons();
+        }
+
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function renderCalibrationBlocks() {
+            const station = stationsData[currentStationIndex];
+            
+            if (selectedBlocks.length === 0) {
+                currentShuffledBank = shuffleArray(station.blocks);
+            }
+
+            const bankContainer = document.getElementById("block-bank");
+            const dropzoneContainer = document.getElementById("block-dropzone");
+
+            bankContainer.innerHTML = "";
+            dropzoneContainer.innerHTML = "";
+
+            currentShuffledBank.forEach((token) => {
+                if (!selectedBlocks.includes(token)) {
+                    const block = document.createElement("button");
+                    block.className = "bg-slate-100 hover:bg-blue-50 border-2 border-slate-300 text-slate-900 font-bold text-sm px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-sm";
+                    block.innerText = token;
+                    
+                    if (token === highlightedHintBlock) {
+                        block.classList.add("highlight-hint");
+                    }
+
+                    block.onclick = () => { 
+                        selectedBlocks.push(token); 
+                        if (token === highlightedHintBlock) highlightedHintBlock = null; 
+                        renderCalibrationBlocks(); 
+                    };
+                    bankContainer.appendChild(block);
+                }
+            });
+
+            selectedBlocks.forEach((token) => {
+                const block = document.createElement("button");
+                block.className = "bg-blue-600 text-white font-bold text-sm px-4 py-2.5 rounded-xl flex items-center space-x-2 cursor-pointer shadow-sm";
+                block.innerHTML = `<span>${token}</span><i data-lucide='x' class='w-4 h-4 text-blue-200'></i>`;
+                block.onclick = () => { 
+                    selectedBlocks = selectedBlocks.filter(b => b !== token); 
+                    highlightedHintBlock = null;
+                    renderCalibrationBlocks(); 
+                };
+                dropzoneContainer.appendChild(block);
+            });
+            lucide.createIcons();
+        }
+
+        function clearCalibrationBlocks() {
+            selectedBlocks = [];
+            highlightedHintBlock = null;
+            renderCalibrationBlocks();
+        }
+
+        function showCalibrationHint() {
+            const station = stationsData[currentStationIndex];
+            const nextCorrectIndex = selectedBlocks.length;
+            
+            if (nextCorrectIndex < station.solutionTokens.length) {
+                highlightedHintBlock = station.solutionTokens[nextCorrectIndex];
+                renderCalibrationBlocks();
+            }
+
+            const hintBox = document.getElementById("calibration-hint-box");
+            document.getElementById("calibration-hint-text").innerText = station.hint;
+            hintBox.classList.remove("hidden");
+            lucide.createIcons();
+        }
+
+        function revealCalibrationAnswer() {
+            const station = stationsData[currentStationIndex];
+            selectedBlocks = [...station.solutionTokens];
+            renderCalibrationBlocks();
+            evaluateAnswer();
+        }
+
+        function showHelpHint() {
+            const station = stationsData[currentStationIndex];
+            const hintBox = document.getElementById("hint-box");
+            document.getElementById("override-hint-text").innerText = station.hint;
+            hintBox.classList.remove("hidden");
+            lucide.createIcons();
+        }
+
+        function revealCorrectAnswer() {
+            const station = stationsData[currentStationIndex];
+            const inputArea = document.getElementById("override-input");
+            inputArea.value = station.solutionPlain;
+            showHelpHint();
+            evaluateAnswer();
+        }
+
+        function evaluateAnswer() {
+            const station = stationsData[currentStationIndex];
+            let isCorrect = false;
+
+            if (station.phase === "Calibration") {
+                if (selectedBlocks.length === station.solutionTokens.length) {
+                    isCorrect = selectedBlocks.every((val, index) => val === station.solutionTokens[index]);
+                }
+            } else {
+                const rawInput = document.getElementById("override-input").value;
+                const normalizedInput = rawInput.toLowerCase().replace(/,/g, "").replace(/\s+/g, " ").trim();
+                isCorrect = station.acceptedAnswers.map(ans => ans.replace(/,/g, "")).includes(normalizedInput);
+            }
+
+            const feedbackBadge = document.getElementById("feedback-badge");
+            const feedbackText = document.getElementById("feedback-text");
+            const feedbackIcon = document.getElementById("feedback-icon");
+            const workstationCard = document.getElementById("workstation-card");
+
+            feedbackBadge.classList.remove("hidden", "bg-emerald-100", "text-emerald-800", "border-emerald-300", "bg-amber-100", "text-amber-800", "border-amber-300");
+
+            if (isCorrect) {
+                feedbackBadge.className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold bg-emerald-100 text-emerald-800 border-2 border-emerald-300 shadow-sm";
+                feedbackText.innerText = "Correct!";
+                feedbackIcon.setAttribute("data-lucide", "check-circle");
+                completedStations.add(currentStationIndex);
+                
+                if (station.phase === "Override") {
+                    document.getElementById("override-input").disabled = true;
+                    document.getElementById("btn-hint").disabled = true;
+                    document.getElementById("btn-reveal").disabled = true;
+                } else {
+                    document.getElementById("btn-calibration-hint").disabled = true;
+                    document.getElementById("btn-calibration-reveal").disabled = true;
+                }
+
+                document.getElementById("btn-submit").classList.add("hidden");
+                document.getElementById("btn-next").classList.remove("hidden");
+            } else {
+                feedbackBadge.className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold bg-amber-100 text-amber-800 border-2 border-amber-300 shadow-sm";
+                feedbackText.innerText = "Try again!";
+                feedbackIcon.setAttribute("data-lucide", "alert-circle");
+                
+                workstationCard.classList.add("shake");
+                setTimeout(() => workstationCard.classList.remove("shake"), 400);
+            }
+            lucide.createIcons();
+        }
+
+        function nextStation() {
+            if (currentStationIndex + 1 < stationsData.length) {
+                loadStation(currentStationIndex + 1);
+            } else {
+                document.getElementById("screen-lab").classList.add("hidden");
+                document.getElementById("screen-debriefing").classList.remove("hidden");
+                generateDiscussionPrompt();
+            }
+        }
+
+        function generateDiscussionPrompt() {
+            const randomIndex = Math.floor(Math.random() * discussionPrompts.length);
+            document.getElementById("discussion-prompt").innerText = discussionPrompts[randomIndex];
+        }
+
+        function resetMission() {
+            currentStationIndex = 0;
+            selectedBlocks = [];
+            completedStations.clear();
+            highlightedHintBlock = null;
+            buildTimelineTrackerDOM();
+            
+            document.getElementById("screen-debriefing").classList.add("hidden");
+            document.getElementById("screen-lab").classList.add("hidden");
+            document.getElementById("screen-briefing").classList.remove("hidden");
+            
+            const inputArea = document.getElementById("override-input");
+            if (inputArea) inputArea.disabled = false;
+            
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
